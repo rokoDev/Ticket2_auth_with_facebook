@@ -10,11 +10,15 @@
 
 #import <FacebookSDK/FacebookSDK.h>
 
+extern NSString *const SCSessionStateChangedNotification;
+extern NSString *const LoginedViewControllerNotification;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
 - (void)loginedVCDidAppear;
 - (void)showLoginView;
+- (void)openSession;
 
 @end

@@ -8,12 +8,18 @@
 
 #import "LoginedViewController.h"
 #import "AppDelegate.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface LoginedViewController ()
 
 @end
 
 @implementation LoginedViewController
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -24,17 +30,33 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (FBSession.activeSession.isOpen) {
+        [self populateUserDetails];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(sessionStateChanged:)
+     name:SCSessionStateChangedNotification
+     object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     NSLog(@"viewDidAppear: LoginedViewController");
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    [appDelegate loginedVCDidAppear];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LoginedViewControllerNotification object:nil];
+    //AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    //[appDelegate loginedVCDidAppear];
 }
 
 //- (void)viewWillLayoutSubviews
@@ -52,6 +74,31 @@
 
 - (IBAction)logoutBtnTapped:(id)sender {
     NSLog(@"logoutBtnTapped");
+    [FBSession.activeSession closeAndClearTokenInformation];
+}
+
+- (void)populateUserDetails
+{
+    if (FBSession.activeSession.isOpen) {
+        [[FBRequest requestForMe] startWithCompletionHandler:
+         ^(FBRequestConnection *connection,
+           NSDictionary<FBGraphUser> *user,
+           NSError *error) {
+             if (!error) {
+                 self.nameLbl.text = user.first_name;
+                 self.lastNameLbl.text = user.last_name;
+                 self.birthdayLbl.text = user.birthday;
+                 if (!self.birthdayLbl.text) {
+                     self.birthdayLbl.text = @"unknown";
+                 }
+                 self.userPhoto.profileID = user.id;
+             }
+         }];
+    }
+}
+
+- (void)sessionStateChanged:(NSNotification*)notification {
+    [self populateUserDetails];
 }
 
 @end

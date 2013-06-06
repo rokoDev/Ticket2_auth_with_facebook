@@ -7,6 +7,7 @@
 //
 
 #import "GoingToLoginViewController.h"
+#import "AppDelegate.h"
 
 @interface GoingToLoginViewController ()
 
@@ -39,5 +40,16 @@
 
 - (IBAction)loginBtnTapped:(id)sender {
     NSLog(@"loginBtnTapped");
+    [self.activityIndicator startAnimating];
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate openSession];
+}
+
+- (void)loginFailed
+{
+    // User switched back to the app without authorizing. Stay here, but
+    // stop the spinner.
+    [self.activityIndicator stopAnimating];
 }
 @end

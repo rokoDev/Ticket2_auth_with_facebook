@@ -10,11 +10,18 @@
 #import "LoginedViewController.h"
 #import "GoingToLoginViewController.h"
 
+NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:SCSessionStateChangedNotification";
+NSString *const LoginedViewControllerNotification = @"loginedVCDidAppear";
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    [FBProfilePictureView class];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginedVCDidAppear) name:LoginedViewControllerNotification object:nil];
     
     return YES;
 }
@@ -39,6 +46,12 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    
+    // We need to properly handle activation of the application with regards to Facebook Login
+    // (e.g., returning from iOS 6.0 Login Dialog or from fast app switching).
+    NSLog(@"applicationDidBecomeActive");
+    [FBSession.activeSession handleDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -49,7 +62,22 @@
 - (void)showLoginView
 {
     NSLog(@"showLoginView");
-    [self.window.rootViewController performSegueWithIdentifier:@"showGoingToLoginVC" sender:self.window.rootViewController];
+//    UINavigationController *navController = (UINavigationController*)self.window.rootViewController;
+//    LoginedViewController *loginedVC = (LoginedViewController*)[navController visibleViewController];
+//    [loginedVC performSegueWithIdentifier:@"showGoingToLoginVC" sender:loginedVC];
+    
+    UINavigationController *navController = (UINavigationController*)self.window.rootViewController;
+    
+    // If the login screen is not already displayed, display it. If the login screen is
+    // displayed, then getting back here means the login in progress did not successfully
+    // complete. In that case, notify the login view so it can update its UI appropriately.
+    if (![[navController visibleViewController] isKindOfClass:[GoingToLoginViewController class]]) {
+        LoginedViewController *loginedVC = (LoginedViewController*)[navController visibleViewController];
+        [loginedVC performSegueWithIdentifier:@"showGoingToLoginVC" sender:loginedVC];
+    } else {
+        GoingToLoginViewController *goingToLoginVC = (GoingToLoginViewController*)[navController visibleViewController];
+        [goingToLoginVC loginFailed];
+    }
 }
 
 - (void)loginedVCDidAppear
@@ -58,10 +86,84 @@
     // See if the app has a valid token for the current state.
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
         // To-do, show logged in view
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        [self openSession];
     } else {
         // No, display the login page.
         [self showLoginView];
     }
+}
+
+- (void)openSession
+{
+    NSLog(@"openSession");
+    [FBSession openActiveSessionWithReadPermissions:nil
+                                       allowLoginUI:YES
+                                  completionHandler:
+     ^(FBSession *session,
+       FBSessionState state, NSError *error) {
+         [self sessionStateChanged:session state:state error:error];
+     }];
+}
+
+- (void)sessionStateChanged:(FBSession *)session
+                      state:(FBSessionState) state
+                      error:(NSError *)error
+{
+    NSLog(@"sessionStateChanged");
+    switch (state) {
+        case FBSessionStateOpen: {
+            NSLog(@"sessionStateChanged: FBSessionStateOpen");
+            //UIViewController *topViewController = [(UINavigationController*)self.window.rootViewController topViewController];
+            UIViewController *topViewController = [(UINavigationController*)self.window.rootViewController visibleViewController];
+            
+            if ([topViewController isKindOfClass:[GoingToLoginViewController class]])
+            {
+                //[topViewController dismissViewControllerAnimated:YES completion:nil];
+                NSLog(@"k1");
+                [[NSNotificationCenter defaultCenter] removeObserver:self];
+                [topViewController dismissViewControllerAnimated:YES completion:nil];
+                NSLog(@"k2");
+                //[[self.window.rootViewController presentedViewController] dismissViewControllerAnimated:YES completion:nil];
+            }
+        }
+            break;
+        case FBSessionStateClosed:
+        case FBSessionStateClosedLoginFailed:
+            // Once the user has logged in, we want them to
+            // be looking at the root view.
+            [(UINavigationController*)self.window.rootViewController popToRootViewControllerAnimated:NO];
+            
+            [FBSession.activeSession closeAndClearTokenInformation];
+            
+            [self showLoginView];
+            break;
+        default:
+            break;
+    }
+    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:SCSessionStateChangedNotification
+     object:session];
+    
+    if (error) {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Error"
+                                  message:error.localizedDescription
+                                  delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+    
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [FBSession.activeSession handleOpenURL:url];
 }
 
 @end

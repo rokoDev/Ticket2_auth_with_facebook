@@ -13,4 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 - (IBAction)loginBtnTapped:(id)sender;
 
+- (void)loginFailed;
+
 @end

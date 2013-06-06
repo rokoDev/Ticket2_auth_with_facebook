@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface LoginedViewController : UIViewController
 
 
-@property (weak, nonatomic) IBOutlet UIImageView *userPhoto;
+@property (weak, nonatomic) IBOutlet FBProfilePictureView *userPhoto;
 @property (weak, nonatomic) IBOutlet UILabel *nameLbl;
 @property (weak, nonatomic) IBOutlet UILabel *lastNameLbl;
 @property (weak, nonatomic) IBOutlet UILabel *birthdayLbl;
