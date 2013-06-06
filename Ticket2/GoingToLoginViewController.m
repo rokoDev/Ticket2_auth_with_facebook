@@ -44,6 +44,10 @@
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     [appDelegate openSession];
+    
+    // The person using the app has initiated a login, so call the openSession method
+    // and show the login UX if necessary.
+    //[appDelegate openSessionWithAllowLoginUI:YES];
 }
 
 - (void)loginFailed

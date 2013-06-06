@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLbl;
 @property (weak, nonatomic) IBOutlet UILabel *lastNameLbl;
 @property (weak, nonatomic) IBOutlet UILabel *birthdayLbl;
+@property (weak, nonatomic) IBOutlet UILabel *localeLbl;
 
 - (IBAction)logoutBtnTapped:(id)sender;
 

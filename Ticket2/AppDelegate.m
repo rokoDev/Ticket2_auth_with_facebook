@@ -10,8 +10,8 @@
 #import "LoginedViewController.h"
 #import "GoingToLoginViewController.h"
 
-NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:SCSessionStateChangedNotification";
-NSString *const LoginedViewControllerNotification = @"loginedVCDidAppear";
+NSString *const SCSessionStateChangedNotification = @"com.rokoprogs.Ticket2:SCSessionStateChangedNotification";
+NSString *const LoginedViewControllerNotification = @"com.rokoprogs.Ticket2:loginedVCDidAppear";
 
 @implementation AppDelegate
 
@@ -57,6 +57,7 @@ NSString *const LoginedViewControllerNotification = @"loginedVCDidAppear";
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [FBSession.activeSession close];
 }
 
 - (void)showLoginView
@@ -97,7 +98,13 @@ NSString *const LoginedViewControllerNotification = @"loginedVCDidAppear";
 - (void)openSession
 {
     NSLog(@"openSession");
-    [FBSession openActiveSessionWithReadPermissions:nil
+    NSArray *permissions = [[NSArray alloc] initWithObjects:
+                            @"email",
+                            @"user_birthday",
+                            @"user_location",
+                            //@"user_likes",
+                            nil];
+    [FBSession openActiveSessionWithReadPermissions:permissions//nil
                                        allowLoginUI:YES
                                   completionHandler:
      ^(FBSession *session,
@@ -164,6 +171,22 @@ NSString *const LoginedViewControllerNotification = @"loginedVCDidAppear";
          annotation:(id)annotation
 {
     return [FBSession.activeSession handleOpenURL:url];
+}
+
+- (BOOL)openSessionWithAllowLoginUI:(BOOL)allowLoginUI {
+    NSArray *permissions = [[NSArray alloc] initWithObjects:
+                            @"email",
+                            @"user_likes",
+                            nil];
+    return [FBSession openActiveSessionWithReadPermissions:permissions
+                                              allowLoginUI:allowLoginUI
+                                         completionHandler:^(FBSession *session,
+                                                             FBSessionState state,
+                                                             NSError *error) {
+                                             [self sessionStateChanged:session
+                                                                 state:state
+                                                                 error:error];
+                                         }];
 }
 
 @end

@@ -10,6 +10,10 @@
 #import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
 
+#ifndef makeString
+#define makeString(x,y) (((x) == (nil)) ? (y) : (x))
+#endif  // makeString
+
 @interface LoginedViewController ()
 
 @end
@@ -70,6 +74,7 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (IBAction)logoutBtnTapped:(id)sender {
@@ -85,12 +90,10 @@
            NSDictionary<FBGraphUser> *user,
            NSError *error) {
              if (!error) {
-                 self.nameLbl.text = user.first_name;
-                 self.lastNameLbl.text = user.last_name;
-                 self.birthdayLbl.text = user.birthday;
-                 if (!self.birthdayLbl.text) {
-                     self.birthdayLbl.text = @"unknown";
-                 }
+                 self.nameLbl.text = makeString(user.first_name, @"unknown");
+                 self.lastNameLbl.text = makeString(user.last_name, @"unknown");
+                 self.birthdayLbl.text = makeString(user.birthday, @"unknown");
+                 self.localeLbl.text = makeString([user objectForKey:@"locale"], @"unknown");
                  self.userPhoto.profileID = user.id;
              }
          }];

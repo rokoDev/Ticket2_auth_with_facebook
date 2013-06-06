@@ -73,33 +73,48 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h3F-lt-xPl" customClass="FBProfilePictureView">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Locale:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jKU-ev-BIR">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gg2-qR-9Gy">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="h3F-lt-xPl" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="1tk-ba-saK"/>
-                            <constraint firstItem="3Gw-7W-fjw" firstAttribute="baseline" secondItem="8au-0Z-J6f" secondAttribute="baseline" type="default" id="6lB-mS-UMt"/>
-                            <constraint firstAttribute="bottom" secondItem="Msk-pG-1cE" secondAttribute="bottom" constant="212" id="7tO-LX-2W0"/>
-                            <constraint firstAttribute="trailing" secondItem="ND4-8J-zZJ" secondAttribute="trailing" constant="117" id="C7p-Fe-JoN"/>
-                            <constraint firstAttribute="bottom" secondItem="8au-0Z-J6f" secondAttribute="bottom" constant="122" id="Cpj-kP-neX"/>
+                            <constraint firstItem="gg2-qR-9Gy" firstAttribute="leading" secondItem="3Gw-7W-fjw" secondAttribute="leading" type="default" id="7Kf-gD-L8O"/>
+                            <constraint firstItem="ND4-8J-zZJ" firstAttribute="leading" secondItem="Qek-pc-3RJ" secondAttribute="leading" type="default" id="B6l-Q8-jnj"/>
+                            <constraint firstItem="gg2-qR-9Gy" firstAttribute="baseline" secondItem="jKU-ev-BIR" secondAttribute="baseline" type="default" id="BUD-uP-ehR"/>
+                            <constraint firstItem="3Gw-7W-fjw" firstAttribute="baseline" secondItem="8au-0Z-J6f" secondAttribute="baseline" type="default" id="DdA-iJ-Maa"/>
+                            <constraint firstItem="Msk-pG-1cE" firstAttribute="top" secondItem="3" secondAttribute="top" constant="110" id="F7K-AU-xCk"/>
                             <constraint firstItem="3Gw-7W-fjw" firstAttribute="leading" secondItem="Qek-pc-3RJ" secondAttribute="leading" type="default" id="GXN-ZY-9fm"/>
+                            <constraint firstItem="BgD-fO-Yb0" firstAttribute="leading" secondItem="jKU-ev-BIR" secondAttribute="leading" type="default" id="GZ4-xU-fiY"/>
                             <constraint firstItem="Cuh-N1-jwC" firstAttribute="leading" secondItem="Msk-pG-1cE" secondAttribute="leading" type="default" id="Kgo-LD-5pD"/>
+                            <constraint firstItem="Qek-pc-3RJ" firstAttribute="baseline" secondItem="Cuh-N1-jwC" secondAttribute="baseline" type="default" id="Npo-HA-Mhb"/>
                             <constraint firstAttribute="bottom" secondItem="h3F-lt-xPl" secondAttribute="bottom" constant="409" id="O55-BA-aUS"/>
+                            <constraint firstItem="jKU-ev-BIR" firstAttribute="leading" secondItem="8au-0Z-J6f" secondAttribute="leading" type="default" id="WZY-Az-Uxr"/>
+                            <constraint firstItem="Cuh-N1-jwC" firstAttribute="top" secondItem="3" secondAttribute="top" constant="149" id="Was-Ng-u6Q"/>
                             <constraint firstItem="h3F-lt-xPl" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" type="default" id="XDP-YP-Thr"/>
-                            <constraint firstItem="Qek-pc-3RJ" firstAttribute="leading" secondItem="ND4-8J-zZJ" secondAttribute="leading" type="default" id="d3T-eV-ymX"/>
-                            <constraint firstItem="BgD-fO-Yb0" firstAttribute="leading" secondItem="8au-0Z-J6f" secondAttribute="leading" type="default" id="fq3-PB-rmw"/>
-                            <constraint firstItem="Qek-pc-3RJ" firstAttribute="baseline" secondItem="Cuh-N1-jwC" secondAttribute="baseline" type="default" id="gJC-QK-SoC"/>
-                            <constraint firstItem="ND4-8J-zZJ" firstAttribute="baseline" secondItem="Msk-pG-1cE" secondAttribute="baseline" type="default" id="o8N-Pa-yIZ"/>
-                            <constraint firstAttribute="bottom" secondItem="Cuh-N1-jwC" secondAttribute="bottom" constant="168" id="pNi-gU-ydQ"/>
+                            <constraint firstItem="h3F-lt-xPl" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="bId-gO-eTT"/>
+                            <constraint firstItem="8au-0Z-J6f" firstAttribute="top" secondItem="3" secondAttribute="top" constant="191" id="eyV-Mi-YTk"/>
+                            <constraint firstAttribute="trailing" secondItem="ND4-8J-zZJ" secondAttribute="trailing" constant="117" id="kWd-q5-C2w"/>
+                            <constraint firstItem="ND4-8J-zZJ" firstAttribute="baseline" secondItem="Msk-pG-1cE" secondAttribute="baseline" type="default" id="lv7-3E-PCL"/>
                             <constraint firstItem="Msk-pG-1cE" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="49" id="pwA-ir-GWE"/>
                             <constraint firstItem="8au-0Z-J6f" firstAttribute="leading" secondItem="Cuh-N1-jwC" secondAttribute="leading" type="default" id="pzC-7C-snj"/>
                             <constraint firstItem="h3F-lt-xPl" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="123" id="sOb-Kz-5jV"/>
                             <constraint firstAttribute="bottom" secondItem="BgD-fO-Yb0" secondAttribute="bottom" constant="39" id="sbh-Mh-9jI"/>
+                            <constraint firstItem="jKU-ev-BIR" firstAttribute="top" secondItem="3" secondAttribute="top" constant="233" id="t41-aY-UB2"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Fkj-hW-1qn"/>
                     <connections>
                         <outlet property="birthdayLbl" destination="3Gw-7W-fjw" id="nsE-VC-327"/>
                         <outlet property="lastNameLbl" destination="Qek-pc-3RJ" id="huy-X4-Y5c"/>
+                        <outlet property="localeLbl" destination="gg2-qR-9Gy" id="4QX-PL-UdB"/>
                         <outlet property="nameLbl" destination="ND4-8J-zZJ" id="8E2-NT-KNU"/>
                         <outlet property="userPhoto" destination="h3F-lt-xPl" id="lGl-UO-8W2"/>
                         <segue destination="GDw-M9-av2" kind="modal" identifier="showGoingToLoginVC" animates="NO" id="jRt-XL-Jyi"/>
@@ -169,7 +184,10 @@
                 <relationship kind="action" name="logoutBtnTapped:"/>
                 <relationship kind="outlet" name="birthdayLbl" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="lastNameLbl" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="localeLbl" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="locationLbl" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="nameLbl" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="timezoneLbl" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="userPhoto" candidateClass="FBProfilePictureView"/>
             </relationships>
         </class>

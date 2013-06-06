@@ -20,5 +20,6 @@ extern NSString *const LoginedViewControllerNotification;
 - (void)loginedVCDidAppear;
 - (void)showLoginView;
 - (void)openSession;
+- (BOOL)openSessionWithAllowLoginUI:(BOOL)allowLoginUI;
 
 @end
