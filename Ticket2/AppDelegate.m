@@ -7,12 +7,15 @@
 //
 
 #import "AppDelegate.h"
+#import "LoginedViewController.h"
+#import "GoingToLoginViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
     return YES;
 }
 							
@@ -41,6 +44,24 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)showLoginView
+{
+    NSLog(@"showLoginView");
+    [self.window.rootViewController performSegueWithIdentifier:@"showGoingToLoginVC" sender:self.window.rootViewController];
+}
+
+- (void)loginedVCDidAppear
+{
+    NSLog(@"loginedVCDidAppear");
+    // See if the app has a valid token for the current state.
+    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+        // To-do, show logged in view
+    } else {
+        // No, display the login page.
+        [self showLoginView];
+    }
 }
 
 @end

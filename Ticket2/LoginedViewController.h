@@ -18,6 +18,4 @@
 
 - (IBAction)logoutBtnTapped:(id)sender;
 
-- (void)showLoginView;
-
 @end

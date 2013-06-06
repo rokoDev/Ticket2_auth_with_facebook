@@ -7,7 +7,7 @@
 //
 
 #import "LoginedViewController.h"
-#import "GoingToLoginViewController.h"
+#import "AppDelegate.h"
 
 @interface LoginedViewController ()
 
@@ -20,7 +20,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        NSLog(@"init LoginedViewController");
     }
     return self;
 }
@@ -29,8 +28,21 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    NSLog(@"viewDidLoad: LoginedViewController");
 }
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    NSLog(@"viewDidAppear: LoginedViewController");
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate loginedVCDidAppear];
+}
+
+//- (void)viewWillLayoutSubviews
+//{
+//    NSLog(@"viewWillLayoutSubviews: LoginedViewController");
+//    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+//    [appDelegate loginedVCDidAppear];
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -40,13 +52,6 @@
 
 - (IBAction)logoutBtnTapped:(id)sender {
     NSLog(@"logoutBtnTapped");
-}
-
-- (void)showLoginView
-{
-//    GoingToLoginViewController* loginViewController =
-//    [[GoingToLoginViewController alloc] initWithNibName:<#(NSString *)#> bundle:<#(NSBundle *)#>];
-//    [topViewController presentModalViewController:loginViewController animated:NO];
 }
 
 @end

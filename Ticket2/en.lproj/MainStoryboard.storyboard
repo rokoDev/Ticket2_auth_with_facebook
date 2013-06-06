@@ -7,7 +7,7 @@
         <!--Logined View Controller-->
         <scene sceneID="5">
             <objects>
-                <viewController id="2" customClass="LoginedViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginedVC" id="2" customClass="LoginedViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3">
                         <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -44,7 +44,6 @@
                                 </state>
                                 <connections>
                                     <action selector="logoutBtnTapped:" destination="2" eventType="touchUpInside" id="ezK-z6-xBd"/>
-                                    <segue destination="GDw-M9-av2" kind="modal" id="GfL-7g-Raq"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ND4-8J-zZJ">
@@ -88,7 +87,7 @@
                         <outlet property="lastNameLbl" destination="Qek-pc-3RJ" id="huy-X4-Y5c"/>
                         <outlet property="nameLbl" destination="ND4-8J-zZJ" id="8E2-NT-KNU"/>
                         <outlet property="userPhoto" destination="oDW-E7-VGu" id="oSk-RH-BMC"/>
-                        <segue destination="GDw-M9-av2" kind="modal" id="jRt-XL-Jyi"/>
+                        <segue destination="GDw-M9-av2" kind="modal" identifier="showGoingToLoginVC" animates="NO" id="jRt-XL-Jyi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -98,7 +97,7 @@
         <!--Going To Login View Controller-->
         <scene sceneID="eHq-WE-x89">
             <objects>
-                <viewController id="GDw-M9-av2" customClass="GoingToLoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GoingToLoginVC" id="GDw-M9-av2" customClass="GoingToLoginViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NuS-RR-mAv">
                         <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -165,7 +164,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="jRt-XL-Jyi"/>
-    </inferredMetricsTieBreakers>
 </document>
