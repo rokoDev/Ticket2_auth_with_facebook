@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 
 #import <FacebookSDK/FacebookSDK.h>
+#import "sqlite3.h"
 
 extern NSString *const SCSessionStateChangedNotification;
 extern NSString *const LoginedViewControllerNotification;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
+{
+    sqlite3 *facebook_user_db;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 
@@ -21,5 +25,13 @@ extern NSString *const LoginedViewControllerNotification;
 - (void)showLoginView;
 - (void)openSession;
 - (BOOL)openSessionWithAllowLoginUI:(BOOL)allowLoginUI;
+- (NSString *)applicationDocumentsDirectory;
+- (NSString*)dbPath;
+- (void)openDB;
+- (void)createTable:(NSString*)tableName keyField:(NSString*)access_token userData:(NSString*)userData;
+- (void)saveUserDataToDB:(NSString*)tableName keyField:(NSString *)access_token userData:(NSData *)userData;
+- (NSData*)restoreUserDataByAccessToken:(NSString*)access_token;
+- (BOOL)checkIfTableExtists:(NSString*)tableName;
+- (void)showErrorAlert:(NSError*)error;
 
 @end

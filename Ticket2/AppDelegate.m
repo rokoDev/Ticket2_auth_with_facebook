@@ -121,17 +121,15 @@ NSString *const LoginedViewControllerNotification = @"com.rokoprogs.Ticket2:logi
     switch (state) {
         case FBSessionStateOpen: {
             NSLog(@"sessionStateChanged: FBSessionStateOpen");
-            //UIViewController *topViewController = [(UINavigationController*)self.window.rootViewController topViewController];
+            //NSLog(@"access token = %@", session.accessTokenData.accessToken);
+            //NSLog(@"access token = %@", FBSession.activeSession.accessTokenData.accessToken);
+            
             UIViewController *topViewController = [(UINavigationController*)self.window.rootViewController visibleViewController];
             
             if ([topViewController isKindOfClass:[GoingToLoginViewController class]])
             {
-                //[topViewController dismissViewControllerAnimated:YES completion:nil];
-                NSLog(@"k1");
                 [[NSNotificationCenter defaultCenter] removeObserver:self];
                 [topViewController dismissViewControllerAnimated:YES completion:nil];
-                NSLog(@"k2");
-                //[[self.window.rootViewController presentedViewController] dismissViewControllerAnimated:YES completion:nil];
             }
         }
             break;
@@ -154,13 +152,7 @@ NSString *const LoginedViewControllerNotification = @"com.rokoprogs.Ticket2:logi
      object:session];
     
     if (error) {
-        UIAlertView *alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Error"
-                                  message:error.localizedDescription
-                                  delegate:nil
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil];
-        [alertView show];
+        [self showErrorAlert:error];
     }
     
 }
@@ -188,5 +180,127 @@ NSString *const LoginedViewControllerNotification = @"com.rokoprogs.Ticket2:logi
                                                                  error:error];
                                          }];
 }
+
+#pragma mark - Application's Documents directory
+
+// Returns the URL to the application's Documents directory.
+- (NSString *)applicationDocumentsDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    return [paths objectAtIndex:0];
+}
+
+#pragma mark - Database's path
+
+- (NSString *)dbPath
+{
+    return [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"facebook_user_data.db"];
+}
+
+#pragma mark -------------------
+//open database or create if it does not exist
+- (void)openDB
+{
+    if (sqlite3_open([[self dbPath] UTF8String], &facebook_user_db) != SQLITE_OK) {
+        sqlite3_close(facebook_user_db);
+        NSAssert(0, @"Database failed to open");
+    } else {
+        NSLog(@"database opened");
+    }
+}
+
+- (void)createTable:(NSString *)tableName keyField:(NSString *)access_token userData:(NSString *)userData
+{
+    char *err;
+    //NSString *sql = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS '%@' ('%@' TEXT PRIMARY KEY, '%@' BLOB)", tableName, access_token, userData];
+    NSString *sql = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS '%@' ('%@' TEXT UNIQUE, '%@' BLOB)", tableName, access_token, userData];
+    if (SQLITE_OK != sqlite3_exec(facebook_user_db, [sql UTF8String], NULL, NULL, &err)) {
+        sqlite3_close(facebook_user_db);
+        NSAssert(0, @"Could not create table");
+    } else {
+        NSLog(@"table created");
+    }
+}
+
+- (void)saveUserDataToDB:(NSString*)tableName keyField:(NSString *)access_token userData:(NSData *)userData
+{
+//    NSString *sql = [NSString stringWithFormat:@"INSERT INTO %@ ('access_token', 'user_data') VALUES ('%@', '%@')", tableName, access_token, userData];
+//    char *err;
+//    if (SQLITE_OK != sqlite3_exec(facebook_user_db, [sql UTF8String], NULL, NULL, &err)) {
+//        NSAssert(0, @"Could not update table");
+//    } else {
+//        NSLog(@"table updated");
+//    }
+    
+    NSString *sql = [NSString stringWithFormat:@"INSERT INTO %@ ('access_token', 'user_data') VALUES (?, ?)", tableName];
+    //const char* sqliteQuery = "INSERT INTO IMAGES (URL, IMAGE) VALUES (?, ?)";
+    sqlite3_stmt* statement;
+    
+    if( sqlite3_prepare_v2(facebook_user_db, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK )
+    {
+        sqlite3_bind_text(statement, 1, [access_token UTF8String], -1, SQLITE_TRANSIENT);
+        sqlite3_bind_blob(statement, 2, [userData bytes], [userData length], SQLITE_TRANSIENT);
+        sqlite3_step(statement);
+    }
+    else NSLog( @"saveUserDataToDB: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(facebook_user_db) );
+    
+    // Finalize and close database.
+    sqlite3_finalize(statement);
+    
+//    sqlite3_stmt *stmt;
+//    
+//    sqlite3_bind_blob(stmt, 1, [userData bytes], [userData length], SQLITE_TRANSIENT);
+//    sqlite3_step(stmt);
+}
+
+- (NSData*)restoreUserDataByAccessToken:(NSString *)access_token
+{
+    NSData* data = nil;
+    NSString* sqliteQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = '%@'", @"user_data", @"facebook_user_data", @"access_token", access_token];
+    sqlite3_stmt* statement;
+    
+    if( sqlite3_prepare_v2(facebook_user_db, [sqliteQuery UTF8String], -1, &statement, NULL) == SQLITE_OK )
+    {
+        if( sqlite3_step(statement) == SQLITE_ROW )
+        {
+            int length = sqlite3_column_bytes(statement, 0);
+            data       = [NSData dataWithBytes:sqlite3_column_blob(statement, 0) length:length];
+        }
+    }
+    else NSLog( @"restoreUserDataByAccessToken: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(facebook_user_db) );
+    
+    // Finalize and close database.
+    sqlite3_finalize(statement);
+    
+    return data;
+}
+
+- (BOOL)checkIfTableExtists:(NSString *)tableName
+{
+    sqlite3_stmt *statementChk;
+    NSString *sql = [NSString stringWithFormat:@"SELECT name FROM sqlite_master WHERE type='table' AND name='%@';", tableName];
+    sqlite3_prepare_v2(facebook_user_db, [sql UTF8String], -1, &statementChk, nil);
+    
+    BOOL boo = YES;
+    
+    if (sqlite3_step(statementChk) == SQLITE_ROW) {
+        boo = NO;
+    }
+    sqlite3_finalize(statementChk);
+    return boo;
+}
+
+- (void)showErrorAlert:(NSError *)error
+{
+    UIAlertView *alertView = [[UIAlertView alloc]
+                              initWithTitle:@"Error"
+                              message:error.localizedDescription
+                              delegate:nil
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil];
+    [alertView show];
+}
+
+
 
 @end
