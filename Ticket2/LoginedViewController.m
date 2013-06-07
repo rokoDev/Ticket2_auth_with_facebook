@@ -85,6 +85,7 @@
 - (void)populateUserDetails
 {
     if (FBSession.activeSession.isOpen) {
+        NSLog(@"ghlk");
         //get user data from database
         NSString *userAccessToken = FBSession.activeSession.accessTokenData.accessToken;
         //if there is no data then we request for it in the facebook
@@ -109,12 +110,12 @@
             [self ensureImageViewContentMode];
         }
         else
-        [FBRequestConnection startWithGraphPath:@"me"
+            [FBRequestConnection startWithGraphPath:@"me"
                                      parameters:[NSDictionary dictionaryWithObject:@"picture.type(large),id,gender,first_name,last_name,email, birthday,name,username,locale,link,timezone,updated_time,verified"
                                                                             forKey:@"fields"]
                                      HTTPMethod:@"GET"
                               completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                                  if(result) {
+                                  if(!error) {
                                       NSLog(@"%@", result);
                                       //NSLog(@"image size: %i", [[[result objectForKey:@"picture"] objectForKey:@"data"] length]);
                                       self.nameLbl.text = makeString([result objectForKey:@"first_name"], @"unknown");
@@ -122,26 +123,38 @@
                                       self.birthdayLbl.text = makeString([result objectForKey:@"birthday"], @"unknown");
                                       self.localeLbl.text = makeString([result objectForKey:@"locale"], @"unknown");
 
-                                      NSData *imageData = [self loadProfileImageWithPath:[[[result objectForKey:@"picture"] objectForKey:@"data"] objectForKey:@"url"]];
+                                      NSString *urlStr = [[[result objectForKey:@"picture"] objectForKey:@"data"] objectForKey:@"url"];
+                                      NSData *imageData = nil;//[self loadProfileImageWithPath:urlStr];
                                       self.imageView.image = [UIImage imageWithData:imageData];
-                                      //self.imageView.image = [UIImage imageWithData:[[result objectForKey:@"picture"] objectForKey:@"data"]];
                                       [self ensureImageViewContentMode];
                                       
                                       
                                       ////////////////////////////////
-                                      NSMutableDictionary * mutableUserDict = [NSMutableDictionary dictionaryWithDictionary:result];
-                                      [mutableUserDict setObject:imageData forKey:@"myfb_user_profile_photo"];
-                                      NSData *userData = [NSPropertyListSerialization dataWithPropertyList:mutableUserDict
-                                                                                                    format:NSPropertyListBinaryFormat_v1_0
-                                                                                                   options:0
-                                                                                                     error:NULL];
-                                      AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-                                      [appDelegate openDB];
-                                      [appDelegate createTable:@"facebook_user_data" keyField:@"access_token" userData:@"user_data"];
-                                      NSLog(@"%i of user data is going to be saved", [userData length]);
-                                      [appDelegate saveUserDataToDB:@"facebook_user_data" keyField:userAccessToken userData:userData];
-
-                                      
+                                      // Load images async
+                                      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                          /* Код, который должен выполниться в фоне */
+                                          NSURL *url = [NSURL URLWithString:urlStr];
+                                          NSData *imageData = [NSData dataWithContentsOfURL:url];
+                                          UIImage *userImage = [UIImage imageWithData:imageData];
+                                          
+                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                              /* Код, который выполниться в главном потоке */
+                                              self.imageView.image = userImage;
+                                              [self ensureImageViewContentMode];
+                                              
+                                              NSMutableDictionary * mutableUserDict = [NSMutableDictionary dictionaryWithDictionary:result];
+                                              [mutableUserDict setObject:imageData forKey:@"myfb_user_profile_photo"];
+                                              NSData *userData = [NSPropertyListSerialization dataWithPropertyList:mutableUserDict
+                                                                                                            format:NSPropertyListBinaryFormat_v1_0
+                                                                                                           options:0
+                                                                                                             error:NULL];
+                                              AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+                                              [appDelegate openDB];
+                                              [appDelegate createTable:@"facebook_user_data" keyField:@"access_token" userData:@"user_data"];
+                                              NSLog(@"%i of user data is going to be saved", [userData length]);
+                                              [appDelegate saveUserDataToDB:@"facebook_user_data" keyField:userAccessToken userData:userData];
+                                          });
+                                      });
                                   }
                                   else {
                                       NSString *blankImageName =
@@ -153,40 +166,6 @@
                                       [(AppDelegate*)[[UIApplication sharedApplication] delegate] showErrorAlert:error];
                                   }
                               }];
-        
-//        [[FBRequest requestForMe] startWithCompletionHandler:
-//         ^(FBRequestConnection *connection,
-//           NSDictionary<FBGraphUser> *user,
-//           NSError *error) {
-//             if (!error) {
-//                 self.nameLbl.text = makeString([user objectForKey:@"first_name"], @"unknown");//makeString(user.first_name, @"unknown");
-//                 self.lastNameLbl.text = makeString([user objectForKey:@"last_name"], @"unknown");//makeString(user.last_name, @"unknown");
-//                 self.birthdayLbl.text = makeString([user objectForKey:@"birthday"], @"unknown");//makeString(user.birthday, @"unknown");
-//                 self.localeLbl.text = makeString([user objectForKey:@"locale"], @"unknown");
-//                 self.userPhoto.profileID = user.id;
-//                 NSLog(@"%@", user);
-//                 //save user data
-//                 NSString *userAccessToken = FBSession.activeSession.accessTokenData.accessToken;
-//                 //NSMutableDictionary * mutableUserDict = [NSMutableDictionary dictionaryWithDictionary:user];
-//                 //[mutableUserDict setObject:<#(id)#> forKey:@"myfb_user_profile_photo"];
-//                 NSData *userData = [NSPropertyListSerialization dataWithPropertyList:user
-//                                                                           format:NSPropertyListBinaryFormat_v1_0
-//                                                                          options:0
-//                                                                            error:NULL];
-//                 AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-//                 [appDelegate openDB];
-//                 [appDelegate createTable:@"facebook_user_data" keyField:@"access_token" userData:@"user_data"];
-//                 NSLog(@"%i of user data is going to be saved", [userData length]);
-//                 [appDelegate saveUserDataToDB:@"facebook_user_data" keyField:userAccessToken userData:userData];
-//
-//                 
-//                 //NSLog(@"access token = %@", session.accessTokenData.accessToken);
-////                 NSDictionary *userDict = [NSPropertyListSerialization propertyListWithData:data
-////                                                                                      options:0
-////                                                                                       format:NSPropertyListBinaryFormat_v1_0
-////                                                                                        error:NULL];
-//             }
-//         }];
     }
 }
 
@@ -212,14 +191,6 @@
     }
     
     self.imageView.contentMode = contentMode;
-}
-
-- (NSData*)loadProfileImageWithPath:(NSString *)path
-{
-    NSLog(@"path: %@", path);
-    NSURL *url = [NSURL URLWithString:path];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    return data;
 }
 
 @end

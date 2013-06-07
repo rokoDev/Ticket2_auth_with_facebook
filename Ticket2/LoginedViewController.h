@@ -21,6 +21,5 @@
 
 - (IBAction)logoutBtnTapped:(id)sender;
 - (void)ensureImageViewContentMode;
-- (NSData*)loadProfileImageWithPath:(NSString *)path;
 
 @end
