@@ -79,6 +79,8 @@
 
 - (IBAction)logoutBtnTapped:(id)sender {
     NSLog(@"logoutBtnTapped");
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate deleteRowForKey:FBSession.activeSession.accessTokenData.accessToken];
     [FBSession.activeSession closeAndClearTokenInformation];
 }
 
@@ -91,23 +93,23 @@
         //if there is no data then we request for it in the facebook
         AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
         [appDelegate openDB];
-        //[appDelegate checkIfTableExtists:@"facebook_user_data"];
+        //[appDelegate checkIfTableExtists:TableName];
         NSData *userData = [appDelegate restoreUserDataByAccessToken:userAccessToken];
         NSLog(@"userData length = %i", [userData length]);
 
         if (userData) {
             NSLog(@"user data loaded from local db");
             NSPropertyListFormat plistFormat;
-            NSDictionary *userDict = [NSPropertyListSerialization propertyListWithData:userData
+            NSMutableDictionary *userDict = [NSMutableDictionary dictionaryWithDictionary:[NSPropertyListSerialization propertyListWithData:userData
                                                                                options:0
                                                                                 format:&plistFormat
-                                                                                 error:NULL];
-            self.nameLbl.text = makeString([userDict objectForKey:@"first_name"], @"unknown");
-            self.lastNameLbl.text = makeString([userDict objectForKey:@"last_name"], @"unknown");
-            self.birthdayLbl.text = makeString([userDict objectForKey:@"birthday"], @"unknown");
-            self.localeLbl.text = makeString([userDict objectForKey:@"locale"], @"unknown");
-            self.imageView.image = [UIImage imageWithData:[userDict objectForKey:@"myfb_user_profile_photo"]];
+                                                                                 error:NULL]];
+            self.imageView.image = [UIImage imageWithData:[userDict objectForKey:UserPhotoKeyInDict]];
             [self ensureImageViewContentMode];
+            
+            [userDict removeObjectForKey:UserPhotoKeyInDict];
+            
+            self.textInfo.text = [NSString stringWithFormat:@"%@", userDict];
         }
         else
             [FBRequestConnection startWithGraphPath:@"me"
@@ -118,10 +120,7 @@
                                   if(!error) {
                                       NSLog(@"%@", result);
                                       //NSLog(@"image size: %i", [[[result objectForKey:@"picture"] objectForKey:@"data"] length]);
-                                      self.nameLbl.text = makeString([result objectForKey:@"first_name"], @"unknown");
-                                      self.lastNameLbl.text = makeString([result objectForKey:@"last_name"], @"unknown");
-                                      self.birthdayLbl.text = makeString([result objectForKey:@"birthday"], @"unknown");
-                                      self.localeLbl.text = makeString([result objectForKey:@"locale"], @"unknown");
+                                      self.textInfo.text = [NSString stringWithFormat:@"%@", result];
 
                                       NSString *urlStr = [[[result objectForKey:@"picture"] objectForKey:@"data"] objectForKey:@"url"];
                                       NSData *imageData = nil;//[self loadProfileImageWithPath:urlStr];
@@ -143,16 +142,16 @@
                                               [self ensureImageViewContentMode];
                                               
                                               NSMutableDictionary * mutableUserDict = [NSMutableDictionary dictionaryWithDictionary:result];
-                                              [mutableUserDict setObject:imageData forKey:@"myfb_user_profile_photo"];
+                                              [mutableUserDict setObject:imageData forKey:UserPhotoKeyInDict];
                                               NSData *userData = [NSPropertyListSerialization dataWithPropertyList:mutableUserDict
                                                                                                             format:NSPropertyListBinaryFormat_v1_0
                                                                                                            options:0
                                                                                                              error:NULL];
                                               AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
                                               [appDelegate openDB];
-                                              [appDelegate createTable:@"facebook_user_data" keyField:@"access_token" userData:@"user_data"];
+                                              [appDelegate createTable:TableName keyField:ACCESS_TOKEN_COLUMN userData:USER_DATA_COLUMN];
                                               NSLog(@"%i of user data is going to be saved", [userData length]);
-                                              [appDelegate saveUserDataToDB:@"facebook_user_data" keyField:userAccessToken userData:userData];
+                                              [appDelegate saveUserDataToDB:TableName keyField:userAccessToken userData:userData];
                                           });
                                       });
                                   }

@@ -40,14 +40,26 @@
 
 - (IBAction)loginBtnTapped:(id)sender {
     NSLog(@"loginBtnTapped");
-    [self.activityIndicator startAnimating];
-    
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    [appDelegate openSession];
-    
-    // The person using the app has initiated a login, so call the openSession method
-    // and show the login UX if necessary.
-    //[appDelegate openSessionWithAllowLoginUI:YES];
+    if ([appDelegate doesInternetConnectionExists]) {
+        NSLog(@"internet connection exists");
+        [self.activityIndicator startAnimating];
+        
+        [appDelegate openSession];
+        
+        // The person using the app has initiated a login, so call the openSession method
+        // and show the login UX if necessary.
+        //[appDelegate openSessionWithAllowLoginUI:YES];
+    }
+    else {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Error"
+                                  message:@"There is no internet connection. You should find one."
+                                  delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
+    }
 }
 
 - (void)loginFailed

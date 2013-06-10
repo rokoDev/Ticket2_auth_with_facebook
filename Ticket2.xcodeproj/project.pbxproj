@@ -32,6 +32,8 @@
 		18161BD0175F4AF700C8C8DC /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18161BCB175F4AF600C8C8DC /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		18161BD3175F875C00C8C8DC /* LoginedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18161BD2175F875C00C8C8DC /* LoginedViewController.m */; };
 		18161BD6175F87A900C8C8DC /* GoingToLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18161BD5175F87A900C8C8DC /* GoingToLoginViewController.m */; };
+		18A2AF2A1765E04F00A21D61 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A2AF291765E04F00A21D61 /* SystemConfiguration.framework */; };
+		18E6C5CC1765D999008558ED /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E6C5CA1765D990008558ED /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +80,9 @@
 		18161BD2175F875C00C8C8DC /* LoginedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginedViewController.m; sourceTree = "<group>"; };
 		18161BD4175F87A800C8C8DC /* GoingToLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoingToLoginViewController.h; sourceTree = "<group>"; };
 		18161BD5175F87A900C8C8DC /* GoingToLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoingToLoginViewController.m; sourceTree = "<group>"; };
+		18A2AF291765E04F00A21D61 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		18E6C5C91765D990008558ED /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		18E6C5CA1765D990008558ED /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18A2AF2A1765E04F00A21D61 /* SystemConfiguration.framework in Frameworks */,
 				18161BCC175F4AF600C8C8DC /* Accounts.framework in Frameworks */,
 				18161BCD175F4AF600C8C8DC /* AdSupport.framework in Frameworks */,
 				18161BCE175F4AF600C8C8DC /* libsqlite3.dylib in Frameworks */,
@@ -113,6 +119,7 @@
 		18161B7A175F3C3A00C8C8DC = {
 			isa = PBXGroup;
 			children = (
+				18A2AF291765E04F00A21D61 /* SystemConfiguration.framework */,
 				18161BC7175F4AF600C8C8DC /* Accounts.framework */,
 				18161BC8175F4AF600C8C8DC /* AdSupport.framework */,
 				18161BC9175F4AF600C8C8DC /* libsqlite3.dylib */,
@@ -160,6 +167,8 @@
 				18161BD2175F875C00C8C8DC /* LoginedViewController.m */,
 				18161BD4175F87A800C8C8DC /* GoingToLoginViewController.h */,
 				18161BD5175F87A900C8C8DC /* GoingToLoginViewController.m */,
+				18E6C5C91765D990008558ED /* Reachability.h */,
+				18E6C5CA1765D990008558ED /* Reachability.m */,
 			);
 			path = Ticket2;
 			sourceTree = "<group>";
@@ -313,6 +322,7 @@
 				18161BA3175F3C3B00C8C8DC /* ViewController.m in Sources */,
 				18161BD3175F875C00C8C8DC /* LoginedViewController.m in Sources */,
 				18161BD6175F87A900C8C8DC /* GoingToLoginViewController.m in Sources */,
+				18E6C5CC1765D999008558ED /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,6 +511,7 @@
 				18161BBD175F3C3C00C8C8DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		18161BBE175F3C3C00C8C8DC /* Build configuration list for PBXNativeTarget "Ticket2Tests" */ = {
 			isa = XCConfigurationList;
@@ -509,6 +520,7 @@
 				18161BC0175F3C3C00C8C8DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

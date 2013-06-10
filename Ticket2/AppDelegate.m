@@ -9,9 +9,15 @@
 #import "AppDelegate.h"
 #import "LoginedViewController.h"
 #import "GoingToLoginViewController.h"
+#import "Reachability.h"
 
 NSString *const SCSessionStateChangedNotification = @"com.rokoprogs.Ticket2:SCSessionStateChangedNotification";
 NSString *const LoginedViewControllerNotification = @"com.rokoprogs.Ticket2:loginedVCDidAppear";
+NSString *const DatabaseFileName = @"facebook_user_data.db";
+NSString *const TableName = @"facebook_user_data";
+NSString *const UserPhotoKeyInDict = @"myfb_user_profile_photo";
+NSString *const ACCESS_TOKEN_COLUMN = @"access_token";
+NSString *const USER_DATA_COLUMN = @"user_data";
 
 @implementation AppDelegate
 
@@ -194,7 +200,7 @@ NSString *const LoginedViewControllerNotification = @"com.rokoprogs.Ticket2:logi
 
 - (NSString *)dbPath
 {
-    return [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"facebook_user_data.db"];
+    return [[self applicationDocumentsDirectory] stringByAppendingPathComponent:TableName];
 }
 
 #pragma mark -------------------
@@ -212,7 +218,6 @@ NSString *const LoginedViewControllerNotification = @"com.rokoprogs.Ticket2:logi
 - (void)createTable:(NSString *)tableName keyField:(NSString *)access_token userData:(NSString *)userData
 {
     char *err;
-    //NSString *sql = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS '%@' ('%@' TEXT PRIMARY KEY, '%@' BLOB)", tableName, access_token, userData];
     NSString *sql = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS '%@' ('%@' TEXT UNIQUE, '%@' BLOB)", tableName, access_token, userData];
     if (SQLITE_OK != sqlite3_exec(facebook_user_db, [sql UTF8String], NULL, NULL, &err)) {
         sqlite3_close(facebook_user_db);
@@ -232,7 +237,7 @@ NSString *const LoginedViewControllerNotification = @"com.rokoprogs.Ticket2:logi
 //        NSLog(@"table updated");
 //    }
     
-    NSString *sql = [NSString stringWithFormat:@"INSERT INTO %@ ('access_token', 'user_data') VALUES (?, ?)", tableName];
+    NSString *sql = [NSString stringWithFormat:@"INSERT INTO %@ ('%@', '%@') VALUES (?, ?)", tableName, ACCESS_TOKEN_COLUMN, USER_DATA_COLUMN];
     //const char* sqliteQuery = "INSERT INTO IMAGES (URL, IMAGE) VALUES (?, ?)";
     sqlite3_stmt* statement;
     
@@ -256,7 +261,7 @@ NSString *const LoginedViewControllerNotification = @"com.rokoprogs.Ticket2:logi
 - (NSData*)restoreUserDataByAccessToken:(NSString *)access_token
 {
     NSData* data = nil;
-    NSString* sqliteQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = '%@'", @"user_data", @"facebook_user_data", @"access_token", access_token];
+    NSString* sqliteQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = '%@'", USER_DATA_COLUMN, TableName, ACCESS_TOKEN_COLUMN, access_token];
     sqlite3_stmt* statement;
     
     if( sqlite3_prepare_v2(facebook_user_db, [sqliteQuery UTF8String], -1, &statement, NULL) == SQLITE_OK )
@@ -301,6 +306,28 @@ NSString *const LoginedViewControllerNotification = @"com.rokoprogs.Ticket2:logi
     [alertView show];
 }
 
+- (void)deleteRowForKey:(NSString *)key
+{
+    NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@='%@'", TableName, ACCESS_TOKEN_COLUMN, key];
+    //const char *sqlStatement = ("DELETE * from OFFENDERS_LIST where ID=%d ",2);
+    
+    sqlite3_stmt *compiledStatement;
+    
+    if (sqlite3_prepare_v2(facebook_user_db, [sql UTF8String], -1, &compiledStatement, NULL) == SQLITE_OK) {
+        
+        NSLog(@"user data has been deleted");
+    }
+    else {
+        NSLog(@"error has occured: %s", sqlite3_errmsg(facebook_user_db) );
+    }
+    sqlite3_finalize(compiledStatement);
+}
 
+- (BOOL)doesInternetConnectionExists
+{
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    return !(networkStatus == NotReachable);
+}
 
 @end

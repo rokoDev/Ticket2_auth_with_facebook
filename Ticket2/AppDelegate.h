@@ -13,6 +13,11 @@
 
 extern NSString *const SCSessionStateChangedNotification;
 extern NSString *const LoginedViewControllerNotification;
+extern NSString *const DatabaseFileName;
+extern NSString *const TableName;
+extern NSString *const UserPhotoKeyInDict;
+extern NSString *const ACCESS_TOKEN_COLUMN;
+extern NSString *const USER_DATA_COLUMN;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
@@ -33,5 +38,8 @@ extern NSString *const LoginedViewControllerNotification;
 - (NSData*)restoreUserDataByAccessToken:(NSString*)access_token;
 - (BOOL)checkIfTableExtists:(NSString*)tableName;
 - (void)showErrorAlert:(NSError*)error;
+- (void)deleteRowForKey:(NSString*)key;
+
+- (BOOL)doesInternetConnectionExists;
 
 @end
