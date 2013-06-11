@@ -53,10 +53,10 @@
     }
     else {
         UIAlertView *alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Error"
-                                  message:@"There is no internet connection. You should find one."
+                                  initWithTitle:NSLocalizedString(@"Error", @"Error")
+                                  message:NSLocalizedString(@"There is no internet connection. You should find one.", @"There is no internet connection. You should find one.")
                                   delegate:nil
-                                  cancelButtonTitle:@"OK"
+                                  cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
                                   otherButtonTitles:nil];
         [alertView show];
     }

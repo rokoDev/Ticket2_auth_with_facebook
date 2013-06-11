@@ -18,6 +18,7 @@ extern NSString *const TableName;
 extern NSString *const UserPhotoKeyInDict;
 extern NSString *const ACCESS_TOKEN_COLUMN;
 extern NSString *const USER_DATA_COLUMN;
+extern NSString *const DefaultUserImagePath;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {

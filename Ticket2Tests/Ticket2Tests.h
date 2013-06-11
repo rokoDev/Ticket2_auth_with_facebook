@@ -7,7 +7,10 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
+#import "AppDelegate.h"
 
 @interface Ticket2Tests : SenTestCase
+
+@property(nonatomic, strong)AppDelegate *appDelegate;
 
 @end

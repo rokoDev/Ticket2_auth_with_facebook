@@ -18,6 +18,7 @@ NSString *const TableName = @"facebook_user_data";
 NSString *const UserPhotoKeyInDict = @"myfb_user_profile_photo";
 NSString *const ACCESS_TOKEN_COLUMN = @"access_token";
 NSString *const USER_DATA_COLUMN = @"user_data";
+NSString *const DefaultUserImagePath = @"FacebookSDKResources.bundle/FBProfilePictureView/images/fb_blank_profile_square.png";
 
 @implementation AppDelegate
 
@@ -298,10 +299,10 @@ NSString *const USER_DATA_COLUMN = @"user_data";
 - (void)showErrorAlert:(NSError *)error
 {
     UIAlertView *alertView = [[UIAlertView alloc]
-                              initWithTitle:@"Error"
+                              initWithTitle:NSLocalizedString(@"Error", @"Error")
                               message:error.localizedDescription
                               delegate:nil
-                              cancelButtonTitle:@"OK"
+                              cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
                               otherButtonTitles:nil];
     [alertView show];
 }

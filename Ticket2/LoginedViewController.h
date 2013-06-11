@@ -18,5 +18,6 @@
 
 - (IBAction)logoutBtnTapped:(id)sender;
 - (void)ensureImageViewContentMode;
+- (void)setDefaultUI;
 
 @end

@@ -22,7 +22,6 @@
 		18161BAC175F3C3C00C8C8DC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18161B86175F3C3B00C8C8DC /* UIKit.framework */; };
 		18161BAD175F3C3C00C8C8DC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18161B88175F3C3B00C8C8DC /* Foundation.framework */; };
 		18161BB5175F3C3C00C8C8DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18161BB3175F3C3C00C8C8DC /* InfoPlist.strings */; };
-		18161BB8175F3C3C00C8C8DC /* Ticket2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18161BB7175F3C3C00C8C8DC /* Ticket2Tests.m */; };
 		18161BC4175F49C200C8C8DC /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18161BC3175F49C200C8C8DC /* FacebookSDK.framework */; };
 		18161BC6175F4A1900C8C8DC /* FacebookSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18161BC5175F4A1900C8C8DC /* FacebookSDKResources.bundle */; };
 		18161BCC175F4AF600C8C8DC /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18161BC7175F4AF600C8C8DC /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -33,7 +32,13 @@
 		18161BD3175F875C00C8C8DC /* LoginedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18161BD2175F875C00C8C8DC /* LoginedViewController.m */; };
 		18161BD6175F87A900C8C8DC /* GoingToLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18161BD5175F87A900C8C8DC /* GoingToLoginViewController.m */; };
 		18A2AF2A1765E04F00A21D61 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A2AF291765E04F00A21D61 /* SystemConfiguration.framework */; };
+		18A2AF2E1765F2E000A21D61 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A2AF2C1765F2E000A21D61 /* libOCMock.a */; };
+		18A2AF371765FB7D00A21D61 /* Ticket2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18161BB7175F3C3C00C8C8DC /* Ticket2Tests.m */; };
+		18A2AF381765FBA200A21D61 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A2AF2C1765F2E000A21D61 /* libOCMock.a */; };
+		18A2AF3A1766018C00A21D61 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A2AF391766018C00A21D61 /* OCMock.framework */; };
 		18E6C5CC1765D999008558ED /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E6C5CA1765D990008558ED /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		18FF88B917675DAC003C76AB /* GoingToLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18161BD5175F87A900C8C8DC /* GoingToLoginViewController.m */; };
+		18FF88BA17675DC5003C76AB /* LoginedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18161BD2175F875C00C8C8DC /* LoginedViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +86,14 @@
 		18161BD4175F87A800C8C8DC /* GoingToLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoingToLoginViewController.h; sourceTree = "<group>"; };
 		18161BD5175F87A900C8C8DC /* GoingToLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoingToLoginViewController.m; sourceTree = "<group>"; };
 		18A2AF291765E04F00A21D61 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		18A2AF2C1765F2E000A21D61 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
+		18A2AF301765F2F000A21D61 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
+		18A2AF311765F2F000A21D61 /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
+		18A2AF321765F2F000A21D61 /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
+		18A2AF331765F2F000A21D61 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
+		18A2AF341765F2F000A21D61 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
+		18A2AF351765F2F000A21D61 /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
+		18A2AF391766018C00A21D61 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = "../../../../../Volumes/OCMock 2.1.1/OSX/OCMock.framework"; sourceTree = "<group>"; };
 		18E6C5C91765D990008558ED /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		18E6C5CA1765D990008558ED /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -100,6 +113,7 @@
 				18161B89175F3C3B00C8C8DC /* Foundation.framework in Frameworks */,
 				18161B8B175F3C3B00C8C8DC /* CoreGraphics.framework in Frameworks */,
 				18161BC4175F49C200C8C8DC /* FacebookSDK.framework in Frameworks */,
+				18A2AF381765FBA200A21D61 /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,9 +121,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18A2AF3A1766018C00A21D61 /* OCMock.framework in Frameworks */,
 				18161BAB175F3C3C00C8C8DC /* SenTestingKit.framework in Frameworks */,
 				18161BAC175F3C3C00C8C8DC /* UIKit.framework in Frameworks */,
 				18161BAD175F3C3C00C8C8DC /* Foundation.framework in Frameworks */,
+				18A2AF2E1765F2E000A21D61 /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +135,7 @@
 		18161B7A175F3C3A00C8C8DC = {
 			isa = PBXGroup;
 			children = (
+				18A2AF391766018C00A21D61 /* OCMock.framework */,
 				18A2AF291765E04F00A21D61 /* SystemConfiguration.framework */,
 				18161BC7175F4AF600C8C8DC /* Accounts.framework */,
 				18161BC8175F4AF600C8C8DC /* AdSupport.framework */,
@@ -157,6 +174,7 @@
 		18161B8C175F3C3B00C8C8DC /* Ticket2 */ = {
 			isa = PBXGroup;
 			children = (
+				18A2AF2B1765F29500A21D61 /* OCMock */,
 				18161B95175F3C3B00C8C8DC /* AppDelegate.h */,
 				18161B96175F3C3B00C8C8DC /* AppDelegate.m */,
 				18161B9E175F3C3B00C8C8DC /* MainStoryboard.storyboard */,
@@ -204,6 +222,28 @@
 				18161BB3175F3C3C00C8C8DC /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		18A2AF2B1765F29500A21D61 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				18A2AF2F1765F2F000A21D61 /* OCMock */,
+				18A2AF2C1765F2E000A21D61 /* libOCMock.a */,
+			);
+			name = OCMock;
+			sourceTree = "<group>";
+		};
+		18A2AF2F1765F2F000A21D61 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				18A2AF301765F2F000A21D61 /* NSNotificationCenter+OCMAdditions.h */,
+				18A2AF311765F2F000A21D61 /* OCMArg.h */,
+				18A2AF321765F2F000A21D61 /* OCMConstraint.h */,
+				18A2AF331765F2F000A21D61 /* OCMock.h */,
+				18A2AF341765F2F000A21D61 /* OCMockObject.h */,
+				18A2AF351765F2F000A21D61 /* OCMockRecorder.h */,
+			);
+			path = OCMock;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,7 +370,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18161BB8175F3C3C00C8C8DC /* Ticket2Tests.m in Sources */,
+				18A2AF371765FB7D00A21D61 /* Ticket2Tests.m in Sources */,
+				18FF88B917675DAC003C76AB /* GoingToLoginViewController.m in Sources */,
+				18FF88BA17675DC5003C76AB /* LoginedViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,6 +480,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket2/Ticket2-Prefix.pch";
 				INFOPLIST_FILE = "Ticket2/Ticket2-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Ticket2\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -453,6 +499,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket2/Ticket2-Prefix.pch";
 				INFOPLIST_FILE = "Ticket2/Ticket2-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Ticket2\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -465,10 +515,25 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\"/Volumes/OCMock 2.1.1/OSX\"",
+					"\"$(SRCROOT)/../../FacebookSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket2/Ticket2-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Ticket2\"",
+				);
 				INFOPLIST_FILE = "Ticket2Tests/Ticket2Tests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Ticket2\"",
+				);
+				OTHER_LDFLAGS = (
+					"-force_load",
+					"\"$(SRCROOT)/Ticket2/libOCMock.a\"",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -482,10 +547,25 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\"/Volumes/OCMock 2.1.1/OSX\"",
+					"\"$(SRCROOT)/../../FacebookSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket2/Ticket2-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Ticket2\"",
+				);
 				INFOPLIST_FILE = "Ticket2Tests/Ticket2Tests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Ticket2\"",
+				);
+				OTHER_LDFLAGS = (
+					"-force_load",
+					"\"$(SRCROOT)/Ticket2/libOCMock.a\"",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;

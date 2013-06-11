@@ -86,6 +86,7 @@
 
 - (void)populateUserDetails
 {
+    [self setDefaultUI];
     if (FBSession.activeSession.isOpen) {
         NSLog(@"ghlk");
         //get user data from database
@@ -156,12 +157,6 @@
                                       });
                                   }
                                   else {
-                                      NSString *blankImageName =
-                                      [NSString
-                                       stringWithFormat:@"FacebookSDKResources.bundle/FBProfilePictureView/images/fb_blank_profile_%@.png",
-                                       1 ? @"square" : @"portrait"];
-                                      self.imageView.image = [UIImage imageNamed:blankImageName];
-                                      
                                       [(AppDelegate*)[[UIApplication sharedApplication] delegate] showErrorAlert:error];
                                   }
                               }];
@@ -190,6 +185,15 @@
     }
     
     self.imageView.contentMode = contentMode;
+}
+
+- (void)setDefaultUI
+{
+    //NSString *blankImageName = @"FacebookSDKResources.bundle/FBProfilePictureView/images/fb_blank_profile_square.png";
+    //[NSString stringWithFormat:@"FacebookSDKResources.bundle/FBProfilePictureView/images/fb_blank_profile_%@.png", 1 ? @"square" : @"portrait"];
+    self.imageView.image = [UIImage imageNamed:DefaultUserImagePath];
+    
+    self.textInfo.text = @"";
 }
 
 @end
